@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -181,27 +180,15 @@ confianca = np.max(probabilidades)
 
 classes = modelo.classes_
 
-# --------------------------------------------------------
-# RESULTADO
-# --------------------------------------------------------
-
 st.subheader("📌 Resultado da Predição")
 
 st.success(f"Classe prevista: {predicao}")
 
 st.info(f"Confiança do modelo: {confianca:.2%}")
 
-# --------------------------------------------------------
-# IMC
-# --------------------------------------------------------
-
 st.subheader("📊 Indicadores Clínicos")
 
 st.metric("IMC", f"{imc:.2f}")
-
-# --------------------------------------------------------
-# PROBABILIDADES
-# --------------------------------------------------------
 
 st.subheader("📈 Probabilidades por Classe")
 
