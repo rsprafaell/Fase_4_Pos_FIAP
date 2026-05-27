@@ -3,11 +3,14 @@ import pandas as pd
 import numpy as np
 import joblib
 
+
 # CONFIG
 st.set_page_config(
     page_title="Sistema de Classificação de Obesidade",
     layout="wide"
 )
+
+st.write("DEBUG: app iniciou")
 
 st.title("🔬 Sistema Inteligente de Classificação de Obesidade")
 
@@ -47,6 +50,8 @@ refeicoes = st.sidebar.slider("Refeições", 1, 4, 3)
 agua = st.sidebar.slider("Água", 1, 3, 2)
 atividade = st.sidebar.slider("Atividade física", 0, 3, 1)
 tempo_exercicio = st.sidebar.slider("Tempo exercício", 0, 2, 1)
+
+st.write("DEBUG: sidebar carregada")
 
 # FEATURE ENGINEERING
 imc = peso / (altura ** 2)
