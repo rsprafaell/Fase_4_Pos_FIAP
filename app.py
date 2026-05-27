@@ -4,11 +4,12 @@ import numpy as np
 import joblib
 
 # ============================================================
-# CONFIG (TEM QUE SER PRIMEIRO STREAMLIT)
+# CONFIG (SEMPRE PRIMEIRO)
 # ============================================================
 st.set_page_config(
     page_title="Sistema de Classificação de Obesidade",
-    layout="wide"
+    layout="centered",
+    initial_sidebar_state="expanded"
 )
 
 st.title("🔬 Sistema Inteligente de Classificação de Obesidade")
@@ -18,62 +19,47 @@ st.markdown(
 )
 
 # ============================================================
-# LOAD MODEL (SEGURO)
+# CARREGAMENTO DO MODELO (SEGURO)
 # ============================================================
 @st.cache_resource
 def carregar_modelo():
     return joblib.load("modelo_obesidade.pkl")
 
 try:
-    st.write("ANTES DO MODELO")
-
-    modelo = joblib.load("modelo_obesidade.pkl")
-
-    st.write("DEPOIS DO MODELO")
+    modelo = carregar_modelo()
+    st.success("Modelo carregado com sucesso ✔")
 except Exception as e:
-    st.error("Erro ao carregar modelo:")
+    st.error("Erro ao carregar modelo")
     st.exception(e)
     st.stop()
 
 # ============================================================
-# SIDEBAR
+# INPUTS (SEM DEPENDER DE SIDEBAR - MAIS ESTÁVEL)
 # ============================================================
-st.sidebar.header("📋 Dados do Paciente")
+st.subheader("📋 Dados do Paciente")
 
-idade = st.sidebar.slider("Idade", 1, 100, 25)
+col1, col2 = st.columns(2)
 
-altura = st.sidebar.number_input(
-    "Altura (m)",
-    min_value=1.0,
-    max_value=2.5,
-    value=1.70,
-    step=0.01
-)
+with col1:
+    idade = st.slider("Idade", 1, 100, 25)
+    altura = st.number_input("Altura (m)", 1.0, 2.5, 1.70)
+    peso = st.number_input("Peso (kg)", 20.0, 300.0, 70.0)
+    genero = st.selectbox("Gênero", ["Masculino", "Feminino"])
+    historico = st.selectbox("Histórico Familiar", ["Sim", "Nao"])
+    alta_caloria = st.selectbox("Alta caloria", ["Sim", "Nao"])
+    fumante = st.selectbox("Fumante", ["Sim", "Nao"])
 
-peso = st.sidebar.number_input(
-    "Peso (kg)",
-    min_value=20.0,
-    max_value=300.0,
-    value=70.0,
-    step=0.1
-)
-
-genero = st.sidebar.selectbox("Gênero", ["Masculino", "Feminino"])
-historico = st.sidebar.selectbox("Histórico Familiar", ["Sim", "Nao"])
-alta_caloria = st.sidebar.selectbox("Consumo Alta Caloria", ["Sim", "Nao"])
-fumante = st.sidebar.selectbox("Fumante", ["Sim", "Nao"])
-monitora = st.sidebar.selectbox("Monitora calorias", ["Sim", "Nao"])
-
-transporte = st.sidebar.selectbox(
-    "Transporte",
-    ["Carro", "Moto", "Bicicleta", "Transporte_Publico", "A_pe"]
-)
-
-vegetais = st.sidebar.slider("Vegetais", 1, 3, 2)
-refeicoes = st.sidebar.slider("Refeições/dia", 1, 4, 3)
-agua = st.sidebar.slider("Água", 1, 3, 2)
-atividade = st.sidebar.slider("Atividade física", 0, 3, 1)
-tempo_exercicio = st.sidebar.slider("Tempo exercício", 0, 2, 1)
+with col2:
+    monitora = st.selectbox("Monitora calorias", ["Sim", "Nao"])
+    transporte = st.selectbox(
+        "Transporte",
+        ["Carro", "Moto", "Bicicleta", "Transporte_Publico", "A_pe"]
+    )
+    vegetais = st.slider("Vegetais", 1, 3, 2)
+    refeicoes = st.slider("Refeições/dia", 1, 4, 3)
+    agua = st.slider("Água", 1, 3, 2)
+    atividade = st.slider("Atividade física", 0, 3, 1)
+    tempo_exercicio = st.slider("Tempo exercício", 0, 2, 1)
 
 # ============================================================
 # FEATURE ENGINEERING
@@ -82,7 +68,7 @@ imc = peso / (altura ** 2)
 score_atividade = atividade * tempo_exercicio
 
 # ============================================================
-# INPUT DATAFRAME (TEM QUE BATER COM TREINO)
+# DATAFRAME
 # ============================================================
 input_df = pd.DataFrame([{
     "Genero": genero,
@@ -102,7 +88,7 @@ input_df = pd.DataFrame([{
 }])
 
 # ============================================================
-# PREDIÇÃO
+# BOTÃO DE PREVISÃO
 # ============================================================
 if st.button("🚀 Gerar Diagnóstico"):
 
@@ -129,11 +115,11 @@ if st.button("🚀 Gerar Diagnóstico"):
         st.dataframe(prob_df)
 
     except Exception as e:
-        st.error("Erro na predição:")
+        st.error("Erro na predição")
         st.exception(e)
 
 # ============================================================
 # FOOTER
 # ============================================================
 st.markdown("---")
-st.caption("Random Forest + Streamlit + ML Pipeline")
+st.caption("Random Forest + Streamlit ML App")
