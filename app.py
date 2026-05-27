@@ -45,19 +45,19 @@ with col1:
     altura = st.number_input("Altura (m)", 1.0, 2.5, 1.70)
     peso = st.number_input("Peso (kg)", 20.0, 300.0, 70.0)
     genero = st.selectbox("Gênero", ["Masculino", "Feminino"])
-    historico = st.selectbox("Histórico Familiar", ["Sim", "Nao"])
-    alta_caloria = st.selectbox("Alta caloria", ["Sim", "Nao"])
+    historico = st.selectbox("Tem Histórico Familiar de Obesidade", ["Sim", "Nao"])
+    alta_caloria = st.selectbox("Condome Alta Caloria", ["Sim", "Nao"])
     fumante = st.selectbox("Fumante", ["Sim", "Nao"])
 
 with col2:
     monitora = st.selectbox("Monitora calorias", ["Sim", "Nao"])
     transporte = st.selectbox(
-        "Transporte",
+        "Tipo de Transporte mais Utilizado",
         ["Carro", "Moto", "Bicicleta", "Transporte_Publico", "A_pe"]
     )
-    vegetais = st.slider("Vegetais", 1, 3, 2)
-    refeicoes = st.slider("Refeições/dia", 1, 4, 3)
-    agua = st.slider("Água", 1, 3, 2)
+    vegetais = st.slider("Frequencia que consome Vegetais", 1, 3, 2)
+    refeicoes = st.slider("Quantidade Refeições/dia", 1, 4, 3)
+    agua = st.slider("Consumo Água em litros", 1, 3, 2)
     atividade = st.slider("Atividade física", 0, 3, 1)
     tempo_exercicio = st.slider("Tempo exercício", 0, 2, 1)
 
