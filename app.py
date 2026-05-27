@@ -25,7 +25,11 @@ def carregar_modelo():
     return joblib.load("modelo_obesidade.pkl")
 
 try:
-    modelo = carregar_modelo()
+    st.write("ANTES DO MODELO")
+
+    modelo = joblib.load("modelo_obesidade.pkl")
+
+    st.write("DEPOIS DO MODELO")
 except Exception as e:
     st.error("Erro ao carregar modelo:")
     st.exception(e)
